@@ -238,8 +238,22 @@ public class Rule
         int highestValue=0;
         var allCards=playerCards.Concat(cardPlace).ToList();
         var listSameKind=SearchPairOrThreeSameOrFourSame(allCards,amountSameKindNumber);
-        ConditionHighestValueAndothersWinners(listSameKind,ref highestValue,othersWinners,ref winner,player);
-         return (highestValue);
+        var otherCard=higherOtherCards
+        return (highestValue);
+    }
+    public static (List<int>,List<int>) higherOtherCards(List<Card> allCards,List<Card> listSameKind)
+    {
+        int amountOtherCard=5;
+        amountOtherCard-=listSameKind.Count();
+        int numberSameKind=listSameKind.First().Number;
+        List<int> otherCard= allCards.Where(c=>c.Number!=numberSameKind) 
+                                .Select(c=>c.Number)
+                                .OrderByDescending(c=>c)
+                                .Take(amountOtherCard)
+                                .ToList();
+        List<int> sameKindNumbers=listSameKind.Select(c=>c.Number)
+                                            .ToList();
+        return (otherCard,sameKindNumbers);
     }
     public static List<int> GroupCardByColor(List<Card> cards)
     {
@@ -277,22 +291,7 @@ public class Rule
             return listRoyal;
         return new List<int>();
     }
-    public static void ConditionHighestValueAndothersWinners(List<int> listSameKind,ref int highestValue,List<Player>othersWinners,ref Player winner,Player player)
-    {
-        if(listSameKind.Any())
-            {
-                if(listSameKind.First()>highestValue)
-                {
-                    highestValue=listSameKind.First();
-                    winner=player;
-                    othersWinners.Clear();
-                }
-                else if(listSameKind.First()==highestValue)
-                {
-                    othersWinners.Add(player);
-                }
-            }
-    }
+    
     public static void CompareLastCards(List<Player>othersWinners,List<Card>cardPlace,int highestValue,ref Player winner)
     {
         var allWinners= new List<Player>();
