@@ -36,75 +36,34 @@ public class Rule
             return (((Rule.RuleEnum)numCombination).ToString(),finalListCards);
         return null;
     }
-    public static (List<Player>,Player,string) RuleDoublePair(List<Player>players,List<Card> cardPlace)
+    public static (string,List<int>)? RuleDoublePair(List<Card>playerCards,List<Card> cardPlace)
     {
         int numCombination=3;
-        var othersWinners=new List<Player>();
-        Player winner = null;
         int highestValueFirstPair=0;
         int highestValueSecondPair=0;
-        int highestValueLastCardForWinner=0;
-        foreach(var player in players)
+
+        var allCards=playerCards.Concat(cardPlace).ToList();
+        var listSameKind=SearchPairOrThreeSameOrFourSame(allCards,2);
+        if(listSameKind.Any()&&listSameKind.Count()==2)
         {
-            var allCards=GroupCards(player.Deck,cardPlace);
-            var listSameKind=SearchPairOrThreeSameOrFourSame(allCards,2);
-            if(listSameKind.Any())
+            
+            foreach(int sameKind in listSameKind )
             {
-                if(listSameKind.Count()==2)
+                if(sameKind>highestValueFirstPair)
                 {
-                    if(listSameKind.First()>highestValueFirstPair)
+                    highestValueFirstPair=sameKind;
+                    highestValueSecondPair=listSameKind[1];
+                }
+                else if(listSameKind.First()==highestValueFirstPair)
+                {
+                    if(listSameKind.Last()>highestValueSecondPair)
                     {
-                        highestValueFirstPair=listSameKind.First();
-                        highestValueSecondPair=listSameKind[1];
-                        winner=player;
-                        othersWinners.Clear();
+                        highestValueSecondPair=listSameKind.Last();
                     }
-                    else if(listSameKind.First()==highestValueFirstPair)
-                    {
-                        if(listSameKind.Last()>highestValueSecondPair)
-                        {
-                            highestValueSecondPair=listSameKind.Last();
-                            winner=player;
-                            othersWinners.Clear();
-                        }
-                        else if(listSameKind.Last()==highestValueSecondPair)
-                        {
-                            othersWinners.Add(player);
-                        }
-                    }      
-                }     
-            }
+                }         
+            }    
         }
-        if(othersWinners.Any())
-        {
-            var allWinners=new List<Player>();
-            allWinners.Add(winner);
-            allWinners.AddRange(othersWinners);
-            othersWinners.Clear();
-            foreach(Player player in allWinners)
-            {
-                var allCardsForWinners=GroupCards(player.Deck,cardPlace);
-                var cardWithoutSameNumber=allCardsForWinners.Select(c=>c.Number)
-                        .Where(c=>c!=highestValueFirstPair&&c!=highestValueSecondPair)
-                        .OrderByDescending(n => n)  
-                        .SkipLast(2)
-                        .First();
-                if(highestValueLastCardForWinner==0)
-                    highestValueLastCardForWinner=cardWithoutSameNumber;
-                if(cardWithoutSameNumber>highestValueLastCardForWinner)
-                {
-                    highestValueLastCardForWinner=cardWithoutSameNumber;
-                    othersWinners.Clear();
-                    winner=player;
-                }
-                else if(cardWithoutSameNumber==highestValueLastCardForWinner)
-                {
-                    othersWinners.Add(player);
-                }
-                    
-            }
-        }
-        return (othersWinners,winner,((Rule.RuleEnum)numCombination).ToString());
+        return (((Rule.RuleEnum)numCombination).ToString());
     }
     public static (string,List<int>)? RuleThreeSameKind(List<Card>playerCards,List<Card> cardPlace)
     {
@@ -204,25 +163,26 @@ public class Rule
     {
         var allCards=playerCards.Concat(cardPlace).ToList();
         var listSameKind=SearchPairOrThreeSameOrFourSame(allCards,amountSameKindNumber);
-        if(listSameKind)
+        if(listSameKind!=null)
         {
-            var finalListCards=higherOtherCards(allCards,listSameKind);
+            var finalListCards=higherOtherCards(allCards,listSameKind,amountSameKindNumber);
             return finalListCards;
         }
         return null;  
     }
-    public static (List<int>,List<int>) higherOtherCards(List<Card> allCards,List<Card> listSameKind)
+    public static List<int> higherOtherCards(List<Card> allCards,List<int> listSameKind,int amountSameKindNumber)
     {
-        int amountOtherCard=5;
-        amountOtherCard-=listSameKind.Count();
-        int numberSameKind=listSameKind.First().Number;
-        List<int> otherCard= allCards.Where(c=>c.Number!=numberSameKind) 
+        List<int> sameKindNumbers = new List<int>();
+        foreach(int sameKind in listSameKind)
+        {
+            sameKindNumbers.AddRange(Enumerable.Repeat(sameKind,amountSameKindNumber));
+        }
+        int amountOtherCard=5-sameKindNumbers.Count();
+        List<int> otherCard= allCards.Where(c => !listSameKind.Contains(c.Number))
                                 .Select(c=>c.Number)
                                 .OrderByDescending(c=>c)
                                 .Take(amountOtherCard)
                                 .ToList();
-        List<int> sameKindNumbers=listSameKind.Select(c=>c.Number)
-                                            .ToList();
         return sameKindNumbers.Concat(otherCard).ToList();
     }
     public static List<int> GroupCardByColor(List<Card> cards)
