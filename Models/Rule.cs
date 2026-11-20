@@ -19,35 +19,22 @@ public class Rule
         FollowFlush,//fait
         RoyalFlush//fait
     }
-    public static (List<Player>,Player,string) RuleHightCard(List<Player> players)
+    public static (string,List<int>) RuleHightCard(List<Card> playerCards)
     {
         int numCombination=1;
-        var othersWinners=new List<Player>();
-        int higherCard=0;
-        Player winner = null;
-        foreach(var player in players)
-        {
-            var higherCardPlayer=player.Deck.Max(c=>c.Number);
-            if(higherCardPlayer>higherCard)
-            {
-                higherCard=higherCardPlayer;   
-                winner=player;      
-                othersWinners.Clear();
-            }
-            else if(higherCardPlayer==higherCard&& player!=winner)
-            {
-                othersWinners.Add(player);
-            }
-        }
-        return (othersWinners,winner,((Rule.RuleEnum)numCombination).ToString());
+        var finalListCards=playerCards.Select(c => c.Number)
+                                    .OrderByDescending(c=>c.Number)
+                                    .Take(5)
+                                    .ToList();
+        return (((Rule.RuleEnum)numCombination).ToString(),finalListCards);
     }
-    public static (string) RulePair(List<card>playerCards,List<Card> cardPlace)
+    public static (string,List<int>) RulePair(List<card>playerCards,List<Card> cardPlace)
     {
         int numCombination=2;
-        (var highestValue)=GroupRuleSameNumber(playerCards,cardPlace,2);
-        if(othersWinners.Any())
-            CompareLastCards(othersWinners,cardPlace,highestValue,ref winner);
-        return (((Rule.RuleEnum)numCombination).ToString());
+        var finalListCards=GroupRuleSameNumber(playerCards,cardPlace,2);
+        if(finalListCards)
+            return (((Rule.RuleEnum)numCombination).ToString(),finalListCards);
+        return null;
     }
     public static (List<Player>,Player,string) RuleDoublePair(List<Player>players,List<Card> cardPlace)
     {
@@ -122,18 +109,18 @@ public class Rule
     public static (List<Player>,Player,string) RuleThreeSameKind(List<Player>players,List<Card> cardPlace)
     {
         int numCombination=4;
-        (var othersWinners,var winner,var highestValue)=GroupRuleSameNumber(players,cardPlace,3);
-        if(othersWinners.Any())
-            CompareLastCards(othersWinners,cardPlace,highestValue,ref winner);
-        return (othersWinners,winner,((Rule.RuleEnum)numCombination).ToString());
+        var finalListCards=GroupRuleSameNumber(playerCards,cardPlace,3);
+        if(finalListCards)
+            return (((Rule.RuleEnum)numCombination).ToString(),finalListCards);
+        return null;
     }
     public static (List<Player>,Player,string) RuleSquare(List<Player>players,List<Card> cardPlace)
     {
         int numCombination=8;
-        (var othersWinners,var winner,var highestValue)=GroupRuleSameNumber(players,cardPlace,4);
-        if(othersWinners.Any())
-            CompareLastCards(othersWinners,cardPlace,highestValue,ref winner);
-        return (othersWinners,winner,((Rule.RuleEnum)numCombination).ToString());
+        var finalListCards=GroupRuleSameNumber(playerCards,cardPlace,4);
+        if(finalListCards)
+            return (((Rule.RuleEnum)numCombination).ToString(),finalListCards);
+        return null;
     }
     public static (List<Player>,Player,string) RuleSameCardColor(List<Player>players,List<Card> cardPlace)
     {
@@ -233,13 +220,16 @@ public class Rule
         return (othersWinners,winner,((Rule.RuleEnum)numCombination).ToString());
     }
 
-    public static (int) GroupRuleSameNumber(List<Card>playerCards,List<Card> cardPlace,int amountSameKindNumber)
+    public static int GroupRuleSameNumber(List<Card>playerCards,List<Card> cardPlace,int amountSameKindNumber)
     {
-        int highestValue=0;
         var allCards=playerCards.Concat(cardPlace).ToList();
         var listSameKind=SearchPairOrThreeSameOrFourSame(allCards,amountSameKindNumber);
-        var otherCard=higherOtherCards
-        return (highestValue);
+        if(listSameKind)
+        {
+            var finalListCards=higherOtherCards(allCards,listSameKind);
+            return finalListCards;
+        }
+        return null;  
     }
     public static (List<int>,List<int>) higherOtherCards(List<Card> allCards,List<Card> listSameKind)
     {
@@ -253,7 +243,7 @@ public class Rule
                                 .ToList();
         List<int> sameKindNumbers=listSameKind.Select(c=>c.Number)
                                             .ToList();
-        return (otherCard,sameKindNumbers);
+        return sameKindNumbers.Concat(otherCard).ToList();
     }
     public static List<int> GroupCardByColor(List<Card> cards)
     {
