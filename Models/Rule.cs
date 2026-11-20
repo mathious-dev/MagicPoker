@@ -127,27 +127,21 @@ public class Rule
         int numCombination=6;
         var allCards=playerCards.Concat(cardPlace).ToList();
         var listSameColor=GroupCardByColor(allCards);
-        if(listSameColor.Any())
+        if(listSameColor!=null)
         {
             listSameColor=listSameColor.Take(5).ToList();
             return (((Rule.RuleEnum)numCombination).ToString(),listSameColor);
         }
         return null;
     }
-    public static (List<Player>,Player,string) RuleFollow(List<Player>players,List<Card> cardPlace)
+    public static (string,List<int>)? RuleFollow(List<Card>playerCards,List<Card> cardPlace)
     {
         int numCombination=5;
-        var othersWinners=new List<Player>();
-        Player winner = null;
-        int highestValue=0;
-        foreach(var player in players)
-        {
-            var allCards=playerCards.Concat(cardPlace).ToList();
-            var allCards=GroupCards(player.Deck,cardPlace);
-            var listFollow=GroupCardByFollow(allCards);
-            ConditionHighestValueAndothersWinners(listFollow,ref highestValue,othersWinners,ref winner,player);
-        }
-        return (othersWinners,winner,((Rule.RuleEnum)numCombination).ToString());
+        var allCards=playerCards.Concat(cardPlace).ToList();
+        var listFollow=GroupCardByFollow(allCards);
+        if(listFollow!=null)
+            return (((Rule.RuleEnum)numCombination).ToString(),listFollow);
+        return null
     }
     public static (List<Player>,Player,string) RuleFull(List<Player>players,List<Card> cardPlace)
     {
@@ -187,35 +181,23 @@ public class Rule
         }
         return (othersWinners,winner,((Rule.RuleEnum)numCombination).ToString());
     }
-    public static (List<Player>,Player,string) RuleFollowFlush(List<Player>players,List<Card> cardPlace)
+    public static (string,List<int>)? RuleFollowFlush(List<Card>playerCards,List<Card> cardPlace)
     {
         int numCombination=9;
-        var othersWinners=new List<Player>();
-        Player winner = null;
-        int highestValue=0;
-        foreach(var player in players)
-        {
-            var allCards=playerCards.Concat(cardPlace).ToList();
-            var allCards=GroupCards(player.Deck,cardPlace);
-            var listFollowFlush=GroupCardByFollowFlush(allCards);
-            ConditionHighestValueAndothersWinners(listFollowFlush,ref highestValue,othersWinners,ref winner,player);
-        }
-        return (othersWinners,winner,((Rule.RuleEnum)numCombination).ToString());
+        var allCards=playerCards.Concat(cardPlace).ToList();
+        var listFollowFlush=GroupCardByFollowFlush(allCards);
+        if(listFollowFlush!=null)
+            return (((Rule.RuleEnum)numCombination).ToString(),listFollowFlush);
+        return null;
     }
-    public static (List<Player>,Player,string) RuleFollowRoyalFlush(List<Player>players,List<Card> cardPlace)
+    public static (List<Player>,Player,string) RuleFollowRoyalFlush(List<Card>playerCards,List<Card> cardPlace)
     {
         int numCombination=10;
-        var othersWinners=new List<Player>();
-        Player winner = null;
-        int highestValue=0;
-        foreach(var player in players)
-        {
-            var allCards=playerCards.Concat(cardPlace).ToList();
-            var allCards=GroupCards(player.Deck,cardPlace);
-            var listFollowRoyalFlush=GroupCardByFollowRoyalFlush(allCards);
-            ConditionHighestValueAndothersWinners(listFollowRoyalFlush,ref highestValue,othersWinners,ref winner,player);
-        }
-        return (othersWinners,winner,((Rule.RuleEnum)numCombination).ToString());
+        var allCards=playerCards.Concat(cardPlace).ToList();
+        var listFollowRoyalFlush=GroupCardByFollowRoyalFlush(allCards);
+        if(listFollowRoyalFlush!=null)
+            return (((Rule.RuleEnum)numCombination).ToString(),listFollowRoyalFlush);
+        return null;
     }
 
     public static int GroupRuleSameNumber(List<Card>playerCards,List<Card> cardPlace,int amountSameKindNumber)
@@ -254,7 +236,7 @@ public class Rule
                                 .ToList();
         return listCardSameColor;
     }
-    public static List<int> GroupCardByFollow(List<Card> cards)
+    public static List<int>? GroupCardByFollow(List<Card> cards)
     {
 
         var listCardFollow=cards.Select(c=>c.Number)
@@ -272,12 +254,12 @@ public class Rule
             listCardFollowFlush=IsFollow(listCardFollowFlush);
         return listCardFollowFlush;
     }
-    public static List<int> GroupCardByFollowRoyalFlush(List<Card> cards)
+    public static List<int>? GroupCardByFollowRoyalFlush(List<Card> cards)
     {
         var listRoyal=GroupCardByFollowFlush(cards);
         if(listRoyal.Any()&&listRoyal.First()==14)
             return listRoyal;
-        return new List<int>();
+        return null;
     }
     
     public static void CompareLastCards(List<Player>othersWinners,List<Card>cardPlace,int highestValue,ref Player winner)
@@ -326,14 +308,14 @@ public class Rule
             }
         }
     }
-    public static List<int> IsFollow(List<int> listCardFollow)
+    public static List<int>? IsFollow(List<int> listCardFollow)
     {
         var count=1;
-        var countSinceStart=2;//on le commence à 2 car si count est à 5 il y a  un break, on ne va donc jamais atteindre le countSinceStart++ et la soustraction de skip sera faussée
+        var countSinceStart=2;//on le commence à 2 car si count est à 5 il y a un break, on ne va donc jamais atteindre le countSinceStart++ et la soustraction de skip sera faussée
+        //on commence à 2 aussi car on va comparer 2 cartes au début
         var previousCard=0;
-        var listEmpty=new List<int>();
         if(listCardFollow.Contains(14))
-            listCardFollow.Add(1);
+            listCardFollow.Add(1);// l'As peut valoir 1 comme il peut valoir 14 donc au dessus du roi
         for(int i=0;i<listCardFollow.Count()-1;i++)//-1 car on va toujours comparer avec le chiffre d'après
         {
             previousCard=listCardFollow[i];
@@ -344,20 +326,16 @@ public class Rule
                 if(count==5)
                 {
                     var skip=countSinceStart-count;
-                    listCardFollow=listCardFollow.Skip(skip)//il faut modifier la liste
+                    return listCardFollow.Skip(skip)//il faut modifier la liste
                                 .Take(5)
                                 .ToList();
-                    break;
                 }
             }
             else
                 count=1;
             countSinceStart++;
         }
-        if(count==5)
-            return listCardFollow;
-        else
-            return listEmpty;
+        return null;
     }
     
     public static List<int> SearchPairOrThreeSameOrFourSame(List<Card> allCards,int whereNumber)
