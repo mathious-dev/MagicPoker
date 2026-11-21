@@ -19,10 +19,11 @@ public class Rule
         FollowFlush,//fait
         RoyalFlush//fait
     }
-    public static (Rule.RuleEnum,List<int>) RuleHightCard(List<Card> playerCards)
+    public static (Rule.RuleEnum,List<int>) RuleHightCard(List<Card>playerCards,List<Card> cardPlace)
     {
-        var finalListCards=playerCards.Select(c => c.Number)
-                                    .OrderByDescending(c=>c.Number)
+        var finalListCards=playerCards.Concat(cardPlace)
+                                    .Select(c => c.Number)
+                                    .OrderByDescending(c=>c)
                                     .Take(5)
                                     .ToList();
         return (Rule.RuleEnum.HighCard,finalListCards);
@@ -39,10 +40,11 @@ public class Rule
     {
         var allCards=playerCards.Concat(cardPlace).ToList();
         var listSameKind=SearchPairOrThreeSameOrFourSame(allCards,2);
-        if(listSameKind.Any())
-            var finalListCards=higherOtherCards(allCards,listSameKind,2);
-        if(finalListCards!=null)
+        if(listSameKind.Count()>=2)
+        {
+            var finalListCards=higherOtherCards(allCards,listSameKind.Take(2).ToList(),2);
             return (Rule.RuleEnum.DoublePair,finalListCards);
+        }
         return null;
     }
     public static (Rule.RuleEnum,List<int>)? RuleThreeSameKind(List<Card>playerCards,List<Card> cardPlace)
@@ -63,7 +65,7 @@ public class Rule
     {
         var allCards=playerCards.Concat(cardPlace).ToList();
         var listSameColor=GroupCardByColor(allCards);
-        if(listSameColor!=null)
+        if(listSameColor.Any())
         {
             listSameColor=listSameColor.Take(5).ToList();
             return (Rule.RuleEnum.Color,listSameColor);
@@ -76,7 +78,7 @@ public class Rule
         var listFollow=GroupCardByFollow(allCards);
         if(listFollow!=null)
             return (Rule.RuleEnum.Follow,listFollow);
-        return null
+        return null;
     }
     public static (Rule.RuleEnum,List<int>)? RuleFull(List<Card>playerCards,List<Card> cardPlace)
     {
@@ -104,7 +106,7 @@ public class Rule
             return (Rule.RuleEnum.FollowFlush,listFollowFlush);
         return null;
     }
-    public static (Rule.RuleEnum,List<int>) RuleFollowRoyalFlush(List<Card>playerCards,List<Card> cardPlace)
+    public static (Rule.RuleEnum,List<int>)? RuleFollowRoyalFlush(List<Card>playerCards,List<Card> cardPlace)
     {
         var allCards=playerCards.Concat(cardPlace).ToList();
         var listFollowRoyalFlush=GroupCardByFollowRoyalFlush(allCards);
@@ -113,7 +115,7 @@ public class Rule
         return null;
     }
 
-    public static int? GroupRuleSameNumber(List<Card>playerCards,List<Card> cardPlace,int amountSameKindNumber)
+    public static List<int>? GroupRuleSameNumber(List<Card>playerCards,List<Card> cardPlace,int amountSameKindNumber)
     {
         var allCards=playerCards.Concat(cardPlace).ToList();
         var listSameKind=SearchPairOrThreeSameOrFourSame(allCards,amountSameKindNumber);
@@ -165,13 +167,13 @@ public class Rule
 
         var listCardFollowFlush=GroupCardByColor(cards);
         if(listCardFollowFlush.Any())
-            listCardFollowFlush=IsFollow(listCardFollowFlush);
-        return listCardFollowFlush;
+            return listCardFollowFlush=IsFollow(listCardFollowFlush);
+        return null;
     }
     public static List<int>? GroupCardByFollowRoyalFlush(List<Card> cards)
     {
         var listRoyal=GroupCardByFollowFlush(cards);
-        if(listRoyal.Any()&&listRoyal.First()==14)
+        if(listRoyal != null &&listRoyal.Any()&&listRoyal.First()==14)
             return listRoyal;
         return null;
     }
