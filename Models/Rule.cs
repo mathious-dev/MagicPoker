@@ -19,151 +19,105 @@ public class Rule
         FollowFlush,//fait
         RoyalFlush//fait
     }
-    public static (string,List<int>) RuleHightCard(List<Card> playerCards)
+    public static (Rule.RuleEnum,List<int>) RuleHightCard(List<Card> playerCards)
     {
-        int numCombination=1;
         var finalListCards=playerCards.Select(c => c.Number)
                                     .OrderByDescending(c=>c.Number)
                                     .Take(5)
                                     .ToList();
-        return (((Rule.RuleEnum)numCombination).ToString(),finalListCards);
+        return (Rule.RuleEnum.HighCard,finalListCards);
     }
-    public static (string,List<int>)? RulePair(List<Card>playerCards,List<Card> cardPlace)
+    public static (Rule.RuleEnum,List<int>)? RulePair(List<Card>playerCards,List<Card> cardPlace)
     {
-        int numCombination=2;
         var finalListCards=GroupRuleSameNumber(playerCards,cardPlace,2);
         if(finalListCards!=null)
-            return (((Rule.RuleEnum)numCombination).ToString(),finalListCards);
+            return (Rule.RuleEnum.Pair,finalListCards);
         return null;
     }
-    public static (string,List<int>)? RuleDoublePair(List<Card>playerCards,List<Card> cardPlace)
+    //à modifier
+    public static (Rule.RuleEnum,List<int>)? RuleDoublePair(List<Card>playerCards,List<Card> cardPlace)
     {
-        int numCombination=3;
-        int highestValueFirstPair=0;
-        int highestValueSecondPair=0;
-
         var allCards=playerCards.Concat(cardPlace).ToList();
         var listSameKind=SearchPairOrThreeSameOrFourSame(allCards,2);
-        if(listSameKind.Any()&&listSameKind.Count()==2)
-        {
-            
-            foreach(int sameKind in listSameKind )
-            {
-                if(sameKind>highestValueFirstPair)
-                {
-                    highestValueFirstPair=sameKind;
-                    highestValueSecondPair=listSameKind[1];
-                }
-                else if(listSameKind.First()==highestValueFirstPair)
-                {
-                    if(listSameKind.Last()>highestValueSecondPair)
-                    {
-                        highestValueSecondPair=listSameKind.Last();
-                    }
-                }         
-            }    
-        }
-        return (((Rule.RuleEnum)numCombination).ToString());
+        if(listSameKind.Any())
+            var finalListCards=higherOtherCards(allCards,listSameKind,2);
+        if(finalListCards!=null)
+            return (Rule.RuleEnum.DoublePair,finalListCards);
+        return null;
     }
-    public static (string,List<int>)? RuleThreeSameKind(List<Card>playerCards,List<Card> cardPlace)
+    public static (Rule.RuleEnum,List<int>)? RuleThreeSameKind(List<Card>playerCards,List<Card> cardPlace)
     {
-        int numCombination=4;
         var finalListCards=GroupRuleSameNumber(playerCards,cardPlace,3);
         if(finalListCards!=null)
-            return (((Rule.RuleEnum)numCombination).ToString(),finalListCards);
+            return (Rule.RuleEnum.ThreeSameKind,finalListCards);
         return null;
     }
-    public static (string,List<int>)? RuleSquare(List<Card>playerCards,List<Card> cardPlace)
+    public static (Rule.RuleEnum,List<int>)? RuleSquare(List<Card>playerCards,List<Card> cardPlace)
     {
-        int numCombination=8;
         var finalListCards=GroupRuleSameNumber(playerCards,cardPlace,4);
         if(finalListCards!=null)
-            return (((Rule.RuleEnum)numCombination).ToString(),finalListCards);
+            return (Rule.RuleEnum.Square,finalListCards);
         return null;
     }
-    public static (string,List<int>)? RuleSameCardColor(List<Card>playerCards,List<Card> cardPlace)
+    public static (Rule.RuleEnum,List<int>)? RuleSameCardColor(List<Card>playerCards,List<Card> cardPlace)
     {
-        int numCombination=6;
         var allCards=playerCards.Concat(cardPlace).ToList();
         var listSameColor=GroupCardByColor(allCards);
         if(listSameColor!=null)
         {
             listSameColor=listSameColor.Take(5).ToList();
-            return (((Rule.RuleEnum)numCombination).ToString(),listSameColor);
+            return (Rule.RuleEnum.Color,listSameColor);
         }
         return null;
     }
-    public static (string,List<int>)? RuleFollow(List<Card>playerCards,List<Card> cardPlace)
+    public static (Rule.RuleEnum,List<int>)? RuleFollow(List<Card>playerCards,List<Card> cardPlace)
     {
-        int numCombination=5;
         var allCards=playerCards.Concat(cardPlace).ToList();
         var listFollow=GroupCardByFollow(allCards);
         if(listFollow!=null)
-            return (((Rule.RuleEnum)numCombination).ToString(),listFollow);
+            return (Rule.RuleEnum.Follow,listFollow);
         return null
     }
-    public static (List<Player>,Player,string) RuleFull(List<Player>players,List<Card> cardPlace)
+    public static (Rule.RuleEnum,List<int>)? RuleFull(List<Card>playerCards,List<Card> cardPlace)
     {
-        int numCombination=7;
-        var othersWinners=new List<Player>();
-        Player winner = null;
-        int highestValueTriple=0;
-        int highestValuePair=0;
-        foreach(var player in players)
+        var allCards=playerCards.Concat(cardPlace).ToList();
+        var listFullTriple=SearchPairOrThreeSameOrFourSame(allCards,3);
+        if (!listFullTriple.Any())
+            return null;
+        int bestTriple = listFullTriple.First();
+        var listFullPair=SearchPairOrThreeSameOrFourSame(allCards,2)
+                        .Where(n=>n!=bestTriple)
+                        .ToList();
+        if(listFullPair.Any())
         {
-            var allCards=playerCards.Concat(cardPlace).ToList();
-            var allCards=GroupCards(player.Deck,cardPlace);
-            var listFullPair=SearchPairOrThreeSameOrFourSame(allCards,2);
-            var listFullTriple=SearchPairOrThreeSameOrFourSame(allCards,3);
-            if(listFullPair.Any()&&listFullTriple.Any())
-            {
-                if(listFullTriple.First()>highestValueTriple)
-                {
-                    highestValueTriple=listFullTriple.First();
-                    highestValuePair=listFullPair.First();
-                    winner=player;
-                    othersWinners.Clear();
-                }
-                else if(listFullTriple.First()==highestValueTriple)
-                {
-                    if(listFullPair.First()>highestValuePair)
-                    {
-                        highestValuePair=listFullPair.First();
-                        winner=player;
-                        othersWinners.Clear();
-                    }
-                    else if(listFullPair.First()==highestValuePair)
-                        othersWinners.Add(player);
-                }
-            }
-                
+            int bestPair=listFullPair.First();
+            var finalListCards=Enumerable.Repeat(bestTriple,3).Concat(Enumerable.Repeat(bestPair,2)).ToList();
+            return (Rule.RuleEnum.Full,finalListCards);
         }
-        return (othersWinners,winner,((Rule.RuleEnum)numCombination).ToString());
+        return null;
     }
-    public static (string,List<int>)? RuleFollowFlush(List<Card>playerCards,List<Card> cardPlace)
+    public static (Rule.RuleEnum,List<int>)? RuleFollowFlush(List<Card>playerCards,List<Card> cardPlace)
     {
-        int numCombination=9;
         var allCards=playerCards.Concat(cardPlace).ToList();
         var listFollowFlush=GroupCardByFollowFlush(allCards);
         if(listFollowFlush!=null)
-            return (((Rule.RuleEnum)numCombination).ToString(),listFollowFlush);
+            return (Rule.RuleEnum.FollowFlush,listFollowFlush);
         return null;
     }
-    public static (List<Player>,Player,string) RuleFollowRoyalFlush(List<Card>playerCards,List<Card> cardPlace)
+    public static (Rule.RuleEnum,List<int>) RuleFollowRoyalFlush(List<Card>playerCards,List<Card> cardPlace)
     {
-        int numCombination=10;
         var allCards=playerCards.Concat(cardPlace).ToList();
         var listFollowRoyalFlush=GroupCardByFollowRoyalFlush(allCards);
         if(listFollowRoyalFlush!=null)
-            return (((Rule.RuleEnum)numCombination).ToString(),listFollowRoyalFlush);
+            return (Rule.RuleEnum.RoyalFlush,listFollowRoyalFlush);
         return null;
     }
 
-    public static int GroupRuleSameNumber(List<Card>playerCards,List<Card> cardPlace,int amountSameKindNumber)
+    public static int? GroupRuleSameNumber(List<Card>playerCards,List<Card> cardPlace,int amountSameKindNumber)
     {
         var allCards=playerCards.Concat(cardPlace).ToList();
         var listSameKind=SearchPairOrThreeSameOrFourSame(allCards,amountSameKindNumber);
-        if(listSameKind!=null)
+        if(listSameKind.Any())
         {
             var finalListCards=higherOtherCards(allCards,listSameKind,amountSameKindNumber);
             return finalListCards;
