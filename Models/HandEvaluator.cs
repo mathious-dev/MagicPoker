@@ -16,7 +16,7 @@ public class HandEvaluator
         ?? RulePair(playerCards, cardPlace)
         ?? RuleHighCard(playerCards, cardPlace);
     }
-    public void WhoWin(List<Player> listPlayers,List<Card> cardPlace)
+    public (Player,List<Player>) WhoWin(List<Player> listPlayers,List<Card> cardPlace)
     {
         Rule.RuleEnum bestCombination=0;
         var listBestCards=new List<int>();
@@ -48,5 +48,6 @@ public class HandEvaluator
                     othersWinners.Add(player);
             }
         }
+        return (winner,othersWinners)
     }
 }
