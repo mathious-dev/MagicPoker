@@ -48,50 +48,16 @@ public class Player
     {
         Console.WriteLine($"\nVotre mise : {this.BetOfTheRound}");
     }
-    public static List<Player> RemoveLoserPlayer(List<Player> players)
-    {
-        var newListPlayer=new List<Player>();
-        foreach(Player player in players)
-        {
-            if(player.Coin>0)
-                newListPlayer.Add(player);
-            else
-                Console.WriteLine($"\nLe joueur {player.Name} est éliminé"); 
-        }
-        return newListPlayer;
-    }
+    
     public virtual void PlayerAllIn()
     {
         Bet(this.Coin);
         Console.WriteLine("\nVous avez tout miser !" );
         this.AllIn=true;
     }
-    public void PlayerWin(int amountWin,string? combination,List<Card>mainCards)
+    public void AddCoins(int amount)
     {
-        this.Coin+=amountWin;
-        Console.WriteLine($"\nLe joueur {this.Name} a gagné avec {amountWin}");
-        if(combination!=null)
-            Console.WriteLine($"et avec la combinaison {combination}");
-    }
-    public static void MultiplePLayersWin(int mainPot,List<Player>othersWinners,Player winner,string? combination,List<Card>mainCards)
-    {
-        var allWinners=new List<Player>();
-        allWinners.AddRange(othersWinners);
-        allWinners.Add(winner);
-        int countPlayer=allWinners.Count();
-        int amount=mainPot/countPlayer;
-        int lastCoins=mainPot % countPlayer;
-        foreach(Player player in allWinners )
-        {
-            Console.WriteLine($"\n{countPlayer} joueurs ont gagné, le pot est donc partagé");
-            player.PlayerWin(amount,combination,mainCards);
-        }
-        if(lastCoins>0)
-        {
-            winner.Coin+=lastCoins;
-            Console.WriteLine($"\n le gagnant principal {winner} reçoit les jetons restants qui sont de {lastCoins} jetons");
-        }
-            
+        this.Coin += amount;
     }
     /*
     *méthode si le joueur suit*
@@ -108,13 +74,6 @@ public class Player
             Bet(amountToCall);
         }
         return amountToCall;
-    }
-    public static void EveryPlayerInGameShowCard(List<Player> players)
-    {
-        foreach(Player player in players)
-        {
-            player.CheckCard();
-        }
     }
     /*
     *Si le joueur décide de suivre en n'augmentant pas la mise*
