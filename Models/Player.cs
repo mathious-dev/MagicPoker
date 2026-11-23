@@ -15,7 +15,6 @@ public class Player
     {
         BetOfTheTour += AmountBet;  
         BetOfTheRound += AmountBet;
-        Console.WriteLine($"\t\t\t\tLe joueur {this.Name} a misé {AmountBet}");
         if(AmountBet>=Coin)
             this.AllIn=true;
         Coin-=AmountBet;
@@ -25,18 +24,6 @@ public class Player
     public void PlayerSleep()
     {
         this.HasFolded=true;
-        Console.WriteLine($"\nLe joueur {this.Name} s'est couché");
-    }
-    public void CheckCard()
-    {
-        Console.WriteLine($"\nles cartes du joueur {this.Name} sont ");
-        foreach(Card card in this.Deck)
-        {
-            if(card.Number>10)
-                Console.WriteLine($"\n{(FaceCard)card.Number} de {card.Type}");
-            else
-                Console.WriteLine($"\n{card.Number} de {card.Type}");
-        }
     }
     public void DefaultFields()
     {
@@ -44,15 +31,9 @@ public class Player
         this.AllIn=false;
         this.HasFolded=false;
     }
-    public void CheckBet()
-    {
-        Console.WriteLine($"\nVotre mise : {this.BetOfTheRound}");
-    }
-    
     public virtual void PlayerAllIn()
     {
         Bet(this.Coin);
-        Console.WriteLine("\nVous avez tout miser !" );
         this.AllIn=true;
     }
     public void AddCoins(int amount)
@@ -70,7 +51,6 @@ public class Player
             this.PlayerAllIn();
         else
         {
-            Console.WriteLine($"\nLe joueur {this.Name} suit");
             Bet(amountToCall);
         }
         return amountToCall;

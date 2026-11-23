@@ -32,31 +32,5 @@ public class Card
     {
         this.Number=number;
     }
-    public static void ShowCards(IEnumerable<Card> cards)
-    {
-        if(cards.Any())//si c'est une liste donc les cartes sur la table
-        {
-            Console.WriteLine($"\nVoici les cartes sur la table\n");
-            foreach(Card card in cards)
-            {
-                if(card.Number>10)
-                    Console.WriteLine($"{(FaceCard)card.Number} de {card.Type} ");
-                else
-                    Console.WriteLine($" {card.Number} de {card.Type}");
-            }
-        }
-        else if(cards!=null)//si c'est un tableau donc le Deck du joueur
-        {
-            Console.WriteLine($"\nVoici les cartes du joueur\n");
-            foreach(Card card in cards)
-            {
-                if(card.Number>10)
-                    Console.WriteLine($"{(FaceCard)card.Number} de {card.Type} ");
-                else
-                    Console.WriteLine($" {card.Number} de {card.Type}");
-            }
-        }
-        
-    }
 }
 

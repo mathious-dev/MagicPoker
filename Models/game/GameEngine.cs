@@ -2,6 +2,11 @@
 
 public class GameEngine
 {
+    private readonly IGameEngineDisplay _display;
+    public GameEngine(IGameEngineDisplay display)
+    {
+        _display=display;
+    }
     public static void MultiplePLayersWin(int mainPot,List<Player>othersWinners,Player winner,string? combination,List<Card>mainCards)
     {
         var allWinners=new List<Player>();
@@ -12,8 +17,8 @@ public class GameEngine
         int lastCoins=mainPot % countPlayer;
         foreach(Player player in allWinners )
         {
-            Console.WriteLine($"\n{countPlayer} joueurs ont gagné, le pot est donc partagé");
             player.PlayerWin(amount,combination,mainCards);
+            _display.MultiplePLayersWinConsole(countPlayer);
         }
         if(lastCoins>0)
         {
@@ -30,7 +35,7 @@ public class GameEngine
             if(player.Coin>0)
                 newListPlayer.Add(player);
             else
-                Console.WriteLine($"\nLe joueur {player.Name} est éliminé"); 
+                _display.PlayerEliminate(player);
         }
         return newListPlayer;
     }
