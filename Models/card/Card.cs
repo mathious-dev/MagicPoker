@@ -28,9 +28,10 @@ public class Card
                 throw new ArgumentOutOfRangeException("Le nombre doit être entre 1 et 14 compris");
         }
     }
-    public Card(int number)
+    public Card(int number,TypeCard type)
     {
         this.Number=number;
+        this.Type=type;
     }
 }
 

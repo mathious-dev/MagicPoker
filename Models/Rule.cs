@@ -177,7 +177,7 @@ public class Rule
             return listRoyal;
         return null;
     }
-    
+    //A supprimer probablement ou déplacer
     public static void CompareLastCards(List<Player>othersWinners,List<Card>cardPlace,int highestValue,ref Player winner)
     {
         var allWinners= new List<Player>();

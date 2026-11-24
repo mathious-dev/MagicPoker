@@ -1,6 +1,6 @@
 ﻿namespace MagicPoker.interface;
 
-public interface IGameEngineDisplay
+public interface IGameDisplay
 {
     void PlayerEliminate(int countPlayer);
     void MultiplePLayersWinConsole(Player player);
