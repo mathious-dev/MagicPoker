@@ -1,9 +1,9 @@
 ﻿namespace MagicPoker;
 
-public class ConsoleDisplay : IGameEngineDisplay
+public class ConsoleDisplay : IGameDisplay
 {
     //Ajouter tous les affichages dans cette classe
-    // public static void EveryPlayerInGameShowCard(List<Player> players)
+    // public  void EveryPlayerInGameShowCard(List<Player> players)
     // {
     //     foreach(Player player in players)
     //     {
@@ -11,11 +11,13 @@ public class ConsoleDisplay : IGameEngineDisplay
     //     }
     // }
 
-
+    **
+    *Méthodes d'affichage qui concerne les joueurs*
+    **
     /*
     *Méthode pour qu'un joueur regarde une nouvelle fois ces cartes*
     */
-    public static void PlayerCheckCard(Player player)
+    public  void PlayerCheckCard(Player player)
     {
         Console.WriteLine($"\nVos cartes sont ");
         foreach(Card card in player.Deck)
@@ -26,29 +28,31 @@ public class ConsoleDisplay : IGameEngineDisplay
                 Console.WriteLine($"\n{card.Number} de {card.Type}");
         }
     }
-    public static void PlayerSleepConsole(Player player)
+    public  void PlayerSleepConsole(Player player)
     {
         Console.WriteLine($"\nLe joueur {player.Name} s'est couché");
     }
-    public static void CheckBet(Player player)
+    public  void CheckBet(Player player)
     {
         Console.WriteLine($"\nVotre mise : {player.BetOfTheRound}");
     }
-    public static void PlayerAllInConsole()
+    public void PlayerAllInConsole()
     {
         Console.WriteLine("\nVous avez tout miser !" );
     }
-    public static void PlayerBet(Player player,int amountBet)
+    public void PlayerBet(Player player,int amountBet)
     {
         Console.WriteLine($"\t\t\t\tLe joueur {player.Name} a misé {amountBet}");
     }
-    public static void PlayerFollowBet(Player player)
+    public void PlayerFollowBet(Player player)
     {
         Console.WriteLine($"\nLe joueur {player.Name} suit");
     }
 
-
-    public static void ShowCardsPlaceOrPlayerDeck(IEnumerable<Card> cards)
+    **
+    *Méthodes d'affichage qui concerne la partie*
+    **
+    public void ShowCardsPlaceOrPlayerDeck(IEnumerable<Card> cards)
     {
         if(cards.Any())//si c'est une liste donc les cartes sur la table
         {
@@ -80,5 +84,18 @@ public class ConsoleDisplay : IGameEngineDisplay
     public void PlayerEliminate(Player player)
     {
         Console.WriteLine($"\nLe joueur {player.Name} est éliminé");
+    }
+    public void ShowMenuOption(string[] options)
+    {
+        int i=1;
+        foreach(string option in options)
+        {
+            Console.WriteLine($"\n{i}.{option}");
+            i++;
+        }
+    }
+    public void ExitGame()
+    {
+        Console.WriteLine("Fin du jeu");
     }
 }

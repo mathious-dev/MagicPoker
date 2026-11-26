@@ -2,7 +2,7 @@
 
 public class GameEngine
 {
-    //Variable de stockage du contrat (interface)
+    //Variables de stockage du contrat (interface)
     private readonly IGameDisplay _display;
     private  IHandEvaluator _handEvaluator;
     //On stocke ensuite dans les variable du constructeur pour des raisons de sécurité et surtout éviter des bugs
@@ -15,7 +15,7 @@ public class GameEngine
     {
         _handEvaluator = newEvaluator;
     }
-    public static void MultiplePLayersWin(int mainPot,List<Player>othersWinners,Player winner,string? combination,List<Card>mainCards)
+    public void MultiplePLayersWin(int mainPot,List<Player>othersWinners,Player winner,string? combination,List<Card>mainCards)
     {
         var allWinners=new List<Player>();
         allWinners.AddRange(othersWinners);
@@ -34,7 +34,7 @@ public class GameEngine
             Console.WriteLine($"\n le gagnant principal {winner} reçoit les jetons restants qui sont de {lastCoins} jetons");
         }
     }
-    public static List<Player> RemoveLoserPlayer(List<Player> players)
+    public List<Player> RemoveLoserPlayer(List<Player> players)
     {
         var newListPlayer=new List<Player>();
         foreach(Player player in players)
