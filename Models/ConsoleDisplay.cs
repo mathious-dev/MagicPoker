@@ -101,7 +101,7 @@ public class ConsoleDisplay : IGameDisplay
     {
         Console.WriteLine("Fin du jeu");
     }
-    public void Winner(Player winner,string combination)
+    public void Winner(Player winner,string? combination)
     {
         Console.WriteLine($"\nLe gagnant est {winner.Name} avec la combinaison {combination}");
     }

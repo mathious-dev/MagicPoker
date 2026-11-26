@@ -49,11 +49,11 @@ public class GameEngine
         }
         return newListPlayer;
     }
-    public static void WhoWinGame(List<Player> allPlayers,List<Card> mainCards)
+    public void WhoWinGame(List<Player> allPlayers,List<Card> mainCards)
     {
         Player winner = new Player();
         var otherWinners=new List<Player>();
-        string combination;
+        string? combination;
         (winner,otherWinners,combination)=_handEvaluator.WhoWin(allPlayers,mainCards);
         _display.Winner(winner,combination);
         if(!otherWinners.Any())
