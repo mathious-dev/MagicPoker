@@ -1,4 +1,4 @@
-﻿namespace MagicPoker.Models.game;
+﻿namespace MagicPoker.Game;
 
 public class classicHandEvaluator : BasePokerHandEvaluator
 {

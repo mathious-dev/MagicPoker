@@ -1,4 +1,4 @@
-﻿namespace MagicPoker.Models.game;
+﻿namespace MagicPoker.Game;
 
 //On va définir cette classe mère en classe abstraite afin de pouvoir faire hériter la méthode WichCombination et obliger les classes enfants à compléter la méthode WhoWin
 //On fait cette classe mère afin d'éviter de répéter le code et surtout on ne va pas obliger à toutes les classes enfants de devoir utiliser WichCombination car plus tard il n'y aura pas que le poker

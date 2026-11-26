@@ -1,4 +1,4 @@
-﻿namespace MagicPoker.interface;
+﻿namespace MagicPoker.Interface;
 
 public interface IGameDisplay
 {
