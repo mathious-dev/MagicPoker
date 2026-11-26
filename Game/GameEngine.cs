@@ -1,4 +1,7 @@
-﻿namespace MagicPoker.Game;
+﻿using MagicPoker.Models;
+using MagicPoker.Models.card;
+using MagicPoker.Interface;
+namespace MagicPoker.Game;
 
 public class GameEngine
 {
@@ -15,25 +18,25 @@ public class GameEngine
     {
         _handEvaluator = newEvaluator;
     }
-    public void MultiplePLayersWin(int mainPot,List<Player>othersWinners,Player winner,string? combination,List<Card>mainCards)
-    {
-        var allWinners=new List<Player>();
-        allWinners.AddRange(othersWinners);
-        allWinners.Add(winner);
-        int countPlayer=allWinners.Count();
-        int amount=mainPot/countPlayer;
-        int lastCoins=mainPot % countPlayer;
-        foreach(Player player in allWinners )
-        {
-            player.PlayerWin(amount,combination,mainCards);
-            _display.MultiplePLayersWinConsole(countPlayer);
-        }
-        if(lastCoins>0)
-        {
-            winner.Coin+=lastCoins;
-            Console.WriteLine($"\n le gagnant principal {winner} reçoit les jetons restants qui sont de {lastCoins} jetons");
-        }
-    }
+    // public void MultiplePLayersWin(int mainPot,List<Player>othersWinners,Player winner,string? combination,List<Card>mainCards)
+    // {
+    //     var allWinners=new List<Player>();
+    //     allWinners.AddRange(othersWinners);
+    //     allWinners.Add(winner);
+    //     int countPlayer=allWinners.Count();
+    //     int amount=mainPot/countPlayer;
+    //     int lastCoins=mainPot % countPlayer;
+    //     foreach(Player player in allWinners )
+    //     {
+    //         player.PlayerWin(amount,combination,mainCards);
+    //         _display.MultiplePLayersWinConsole(countPlayer);
+    //     }
+    //     if(lastCoins>0)
+    //     {
+    //         winner.Coin+=lastCoins;
+    //         Console.WriteLine($"\n le gagnant principal {winner} reçoit les jetons restants qui sont de {lastCoins} jetons");
+    //     }
+    // }
     public List<Player> RemoveLoserPlayer(List<Player> players)
     {
         var newListPlayer=new List<Player>();
@@ -50,7 +53,7 @@ public class GameEngine
     {
         Player winner = new Player();
         var otherWinners=new List<Player>();
-        var combination;
+        string combination;
         (winner,otherWinners,combination)=_handEvaluator.WhoWin(allPlayers,mainCards);
         _display.Winner(winner,combination);
         if(!otherWinners.Any())

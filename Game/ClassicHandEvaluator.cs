@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using MagicPoker.Models;
+using MagicPoker.Models.card;
 namespace MagicPoker.Game;
 
 public class classicHandEvaluator : BasePokerHandEvaluator

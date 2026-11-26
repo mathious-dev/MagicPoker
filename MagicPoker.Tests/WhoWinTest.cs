@@ -1,3 +1,5 @@
+using MagicPoker.Models;
+using MagicPoker.Models.card;
 namespace MagicPoker.Tests;
 
 public class WhoWinTest

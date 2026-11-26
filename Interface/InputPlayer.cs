@@ -1,4 +1,5 @@
-﻿namespace MagicPoker;
+﻿using MagicPoker.Interface;
+namespace MagicPoker;
 
 public class InputPlayer : IInputPlayer
 {

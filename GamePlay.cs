@@ -1,4 +1,6 @@
-﻿namespace MagicPoker;
+﻿using MagicPoker.Interface;
+using MagicPoker.Models;
+namespace MagicPoker;
 
 public class GamePlay
 {
@@ -32,5 +34,17 @@ public class GamePlay
                 case 4: _display.ExitGame();break;
             }
         }
+    }
+    public void StartGame()
+    {
+        
+    }
+    public void Combinations()
+    {
+        
+    }
+    public void EditSettings()
+    {
+        
     }
 }

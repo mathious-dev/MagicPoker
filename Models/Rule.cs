@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.RegularExpressions;
 using Microsoft.VisualBasic;
+using MagicPoker.Models.card;
 public class Rule
 {
     public enum RuleEnum
@@ -178,52 +179,52 @@ public class Rule
         return null;
     }
     //A supprimer probablement ou déplacer
-    public static void CompareLastCards(List<Player>othersWinners,List<Card>cardPlace,int highestValue,ref Player winner)
-    {
-        var allWinners= new List<Player>();
-        List<int> bestLastCards = null;//stocker les meilleurs cartes d'un joueur à battre
-        allWinners.AddRange(othersWinners.ToList());
-        allWinners.Add(winner);
-        othersWinners.Clear();
-        foreach(Player player in allWinners)
-        {
-            var allCards=GroupCards(player.Deck,cardPlace);
-            var allCardsWithoutSameNumber=allCards.Select(c=>c.Number)
-                    .Where(c=>c!=highestValue)
-                    .OrderByDescending(n => n)  
-                    .SkipLast(2)
-                    .ToList();
-            if(bestLastCards==null)
-            {
-                bestLastCards=allCardsWithoutSameNumber;
-                winner=player;
-            }
-            else
-            {
-                bool isBetter = false;
-                bool isEqual = true;
-                for(int i=0;i<allCardsWithoutSameNumber.Count();i++)
-                {
-                    if(allCardsWithoutSameNumber[i]>bestLastCards[i])
-                    {
-                        winner=player;
-                        bestLastCards=allCardsWithoutSameNumber;
-                        othersWinners.Clear();
-                        isBetter = true;
-                        isEqual = false;
-                        break;
-                    }
-                    else if(allCardsWithoutSameNumber[i]<bestLastCards[i])
-                    {
-                        isEqual=false;
-                        break;
-                    }
-                }
-                if(isEqual)
-                    othersWinners.Add(player); 
-            }
-        }
-    }
+    // public static void CompareLastCards(List<Player>othersWinners,List<Card>cardPlace,int highestValue,ref Player winner)
+    // {
+    //     var allWinners= new List<Player>();
+    //     List<int> bestLastCards = null;//stocker les meilleurs cartes d'un joueur à battre
+    //     allWinners.AddRange(othersWinners.ToList());
+    //     allWinners.Add(winner);
+    //     othersWinners.Clear();
+    //     foreach(Player player in allWinners)
+    //     {
+    //         var allCards=GroupCards(player.Deck,cardPlace);
+    //         var allCardsWithoutSameNumber=allCards.Select(c=>c.Number)
+    //                 .Where(c=>c!=highestValue)
+    //                 .OrderByDescending(n => n)  
+    //                 .SkipLast(2)
+    //                 .ToList();
+    //         if(bestLastCards==null)
+    //         {
+    //             bestLastCards=allCardsWithoutSameNumber;
+    //             winner=player;
+    //         }
+    //         else
+    //         {
+    //             bool isBetter = false;
+    //             bool isEqual = true;
+    //             for(int i=0;i<allCardsWithoutSameNumber.Count();i++)
+    //             {
+    //                 if(allCardsWithoutSameNumber[i]>bestLastCards[i])
+    //                 {
+    //                     winner=player;
+    //                     bestLastCards=allCardsWithoutSameNumber;
+    //                     othersWinners.Clear();
+    //                     isBetter = true;
+    //                     isEqual = false;
+    //                     break;
+    //                 }
+    //                 else if(allCardsWithoutSameNumber[i]<bestLastCards[i])
+    //                 {
+    //                     isEqual=false;
+    //                     break;
+    //                 }
+    //             }
+    //             if(isEqual)
+    //                 othersWinners.Add(player); 
+    //         }
+    //     }
+    // }
     public static List<int>? IsFollow(List<int> listCardFollow)
     {
         var count=1;

@@ -1,7 +1,8 @@
-﻿namespace MagicPoker.Interface;
+﻿using MagicPoker.Models;
+namespace MagicPoker.Interface;
 
 public interface IGameDisplay
 {
-    void PlayerEliminate(int countPlayer);
-    void MultiplePLayersWinConsole(Player player);
+    void PlayerEliminate(Player player);
+    // void MultiplePLayersWinConsole(Player player);
 }

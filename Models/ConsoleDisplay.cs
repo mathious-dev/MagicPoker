@@ -1,4 +1,7 @@
-﻿namespace MagicPoker;
+﻿using MagicPoker.Models;
+using MagicPoker.Models.card;
+using MagicPoker.Interface;
+namespace MagicPoker;
 
 public class ConsoleDisplay : IGameDisplay
 {
