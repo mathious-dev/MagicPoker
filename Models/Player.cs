@@ -1,5 +1,7 @@
-﻿namespace MagicPoker.Models;
-using System;
+﻿using System;
+
+namespace MagicPoker.Models;
+
 public class Player
 {
     public event Action<int> OnMoneyBet;

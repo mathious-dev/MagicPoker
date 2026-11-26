@@ -1,6 +1,6 @@
 ﻿namespace MagicPoker.Interface;
 
-public class IInputPlayer
+public interface IInputPlayer
 {
     int IntEnter();
     double DoubleEnter();

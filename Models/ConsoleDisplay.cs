@@ -11,9 +11,9 @@ public class ConsoleDisplay : IGameDisplay
     //     }
     // }
 
-    **
+    /*
     *Méthodes d'affichage qui concerne les joueurs*
-    **
+    */
     /*
     *Méthode pour qu'un joueur regarde une nouvelle fois ces cartes*
     */
@@ -49,9 +49,9 @@ public class ConsoleDisplay : IGameDisplay
         Console.WriteLine($"\nLe joueur {player.Name} suit");
     }
 
-    **
+    /*
     *Méthodes d'affichage qui concerne la partie*
-    **
+    */
     public void ShowCardsPlaceOrPlayerDeck(IEnumerable<Card> cards)
     {
         if(cards.Any())//si c'est une liste donc les cartes sur la table
@@ -97,5 +97,18 @@ public class ConsoleDisplay : IGameDisplay
     public void ExitGame()
     {
         Console.WriteLine("Fin du jeu");
+    }
+    public void Winner(Player winner,string combination)
+    {
+        Console.WriteLine($"\nLe gagnant est {winner.Name} avec la combinaison {combination}");
+    }
+    public void OtherWinners(List<Player> winners)
+    {
+        Console.WriteLine("\nLes gagnants sont ");
+        foreach(Player winner in winners)
+        {
+            Console.WriteLine($"\n-{winner.Name}");
+        }
+        
     }
 }

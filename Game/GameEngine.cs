@@ -46,15 +46,14 @@ public class GameEngine
         }
         return newListPlayer;
     }
-    //à modifier
-    public void WhoWinGame(List<Player> allPlayers,List<Card> mainCards)
+    public static void WhoWinGame(List<Player> allPlayers,List<Card> mainCards)
     {
         Player winner = new Player();
         var otherWinners=new List<Player>();
-
-        foreach(Player player in allPlayers)
-        {
-            (winner,otherWinners)=handEvaluator.WhoWin(allPlayers,mainCards);
-        }
+        var combination;
+        (winner,otherWinners,combination)=_handEvaluator.WhoWin(allPlayers,mainCards);
+        _display.Winner(winner,combination);
+        if(!otherWinners.Any())
+            _display.OtherWinners(othersWinners);
     }
 }

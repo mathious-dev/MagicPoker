@@ -1,0 +1,5 @@
+C:\Users\mathi\OneDrive\Documents\code_amusement\MagicPoker\obj\Debug\net8.0\MagicPoker.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\mathi\OneDrive\Documents\code_amusement\MagicPoker\obj\Debug\net8.0\MagicPoker.AssemblyInfoInputs.cache
+C:\Users\mathi\OneDrive\Documents\code_amusement\MagicPoker\obj\Debug\net8.0\MagicPoker.AssemblyInfo.cs
+C:\Users\mathi\OneDrive\Documents\code_amusement\MagicPoker\obj\Debug\net8.0\MagicPoker.csproj.CoreCompileInputs.cache
+C:\Users\mathi\OneDrive\Documents\code_amusement\MagicPoker\obj\Debug\net8.0\MagicPoker.sourcelink.json

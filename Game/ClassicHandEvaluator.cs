@@ -1,9 +1,13 @@
-﻿namespace MagicPoker.Game;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using MagicPoker.Models;
+namespace MagicPoker.Game;
 
 public class classicHandEvaluator : BasePokerHandEvaluator
 {
     
-    public override (Player,List<Player>) WhoWin(List<Player> listPlayers,List<Card> cardPlace)
+    public override (Player,List<Player>,string?) WhoWin(List<Player> listPlayers,List<Card> cardPlace)
     {
         Rule.RuleEnum bestCombination=0;
         var listBestCards=new List<int>();
@@ -35,6 +39,6 @@ public class classicHandEvaluator : BasePokerHandEvaluator
                     othersWinners.Add(player);
             }
         }
-        return (winner,othersWinners);
+        return (winner,othersWinners,bestCombination.ToString());
     }
 }
