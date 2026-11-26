@@ -1,21 +1,8 @@
 ﻿namespace MagicPoker.Models.game;
 
-public class HandEvaluator
+public class classicHandEvaluator
 {
-    //On nomme le type de retour afin d'avoir plus facile pour afficher et aussi pouvoir stocker dans une seule variable
-    public (Rule.RuleEnum combination,List<int> listCards) WichCombination(List<Card> playerCards,List<Card> cardPlace)
-    {
-        return RuleRoyalFlush(playerCards, cardPlace)
-        ?? RuleStraightFlush(playerCards, cardPlace)
-        ?? RuleFourSameKind(playerCards, cardPlace)
-        ?? RuleFull(playerCards, cardPlace)
-        ?? RuleSameCardColor(playerCards, cardPlace)
-        ?? RuleStraight(playerCards, cardPlace)
-        ?? RuleThreeSameKind(playerCards, cardPlace)
-        ?? RuleDoublePair(playerCards, cardPlace)
-        ?? RulePair(playerCards, cardPlace)
-        ?? RuleHighCard(playerCards, cardPlace);
-    }
+    
     public (Player,List<Player>) WhoWin(List<Player> listPlayers,List<Card> cardPlace)
     {
         Rule.RuleEnum bestCombination=0;

@@ -2,10 +2,14 @@
 
 public class GameEngine
 {
+    //Variable de stockage du contrat (interface)
     private readonly IGameDisplay _display;
-    public GameEngine(IGameDisplay display)
+    private readonly IHandEvaluator _handEvaluator;
+    //On stocke ensuite dans les variable du constructeur pour des raisons de sécurité et surtout éviter des bugs
+    public GameEngine(IGameDisplay display,IHandEvaluator handEvaluator)
     {
         _display=display;
+        _handEvaluator=handEvaluator;
     }
     public static void MultiplePLayersWin(int mainPot,List<Player>othersWinners,Player winner,string? combination,List<Card>mainCards)
     {
@@ -25,7 +29,6 @@ public class GameEngine
             winner.Coin+=lastCoins;
             Console.WriteLine($"\n le gagnant principal {winner} reçoit les jetons restants qui sont de {lastCoins} jetons");
         }
-            
     }
     public static List<Player> RemoveLoserPlayer(List<Player> players)
     {
@@ -40,18 +43,16 @@ public class GameEngine
         return newListPlayer;
     }
     //à modifier
-    public void WhoWin(List<Player> allPlayers,List<Card> mainCards)
+    public void WhoWinGame(List<Player> allPlayers,List<Card> mainCards)
     {
-        string combination;
-        Player winner = null;
+        Player winner = new Player();
         var winners=new List<Player>();
+
         foreach(Player player in allPlayers)
         {
-            (combination,listCardsPlayer)=Rule.RuleFollowRoyalFlush(player.Deck,mainCards);
-            if(CheckWinner(winners,winner,combination,mainCards))return;
+            
         }
         
-    
         (winners,winner,combination)=Rule.RuleFollowFlush(allPlayers,mainCards);
         if(CheckWinner(winners,winner,combination,mainCards))return;
 
@@ -80,20 +81,20 @@ public class GameEngine
         if(CheckWinner(winners,winner,combination,mainCards))return;
     }
     //à vérifier
-    public bool CheckWinner(List<Player>winners,Player winner,string combination,List<Card>cardsOnTable)
-    {
-        if(winner!=null)
-        {
-            OneWinnerOrMore(winners,winner,combination,cardsOnTable);
-            return true;
-        }
-        return false;
-    }
-    public void OneWinnerOrMore(List<Player>winners,Player winner,string combination,List<Card>cardsOnTable)
-    {
-        if(winners.Any())
-            Player.MultiplePLayersWin(MainPot,winners,winner,combination,cardsOnTable);
-        else
-            winner.PlayerWin(MainPot,combination,cardsOnTable);
-    }
+    // public bool CheckWinner(List<Player>winners,Player winner,string combination,List<Card>cardsOnTable)
+    // {
+    //     if(winner!=null)
+    //     {
+    //         OneWinnerOrMore(winners,winner,combination,cardsOnTable);
+    //         return true;
+    //     }
+    //     return false;
+    // }
+    // public void OneWinnerOrMore(List<Player>winners,Player winner,string combination,List<Card>cardsOnTable)
+    // {
+    //     if(winners.Any())
+    //         Player.MultiplePLayersWin(MainPot,winners,winner,combination,cardsOnTable);
+    //     else
+    //         winner.PlayerWin(MainPot,combination,cardsOnTable);
+    // }
 }
