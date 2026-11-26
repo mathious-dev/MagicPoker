@@ -1,9 +1,9 @@
 ﻿namespace MagicPoker.Models.game;
 
-public class classicHandEvaluator
+public class classicHandEvaluator : BasePokerHandEvaluator
 {
     
-    public (Player,List<Player>) WhoWin(List<Player> listPlayers,List<Card> cardPlace)
+    public override (Player,List<Player>) WhoWin(List<Player> listPlayers,List<Card> cardPlace)
     {
         Rule.RuleEnum bestCombination=0;
         var listBestCards=new List<int>();
@@ -12,7 +12,7 @@ public class classicHandEvaluator
         
         foreach(Player player in listPlayers)
         {
-            var result=WichCombination(player.Deck.ToList(),cardPlace)
+            var result=WichCombination(player.Deck.ToList(),cardPlace);
             if(result.combination>bestCombination)
             {
                 bestCombination=result.combination;
@@ -35,6 +35,6 @@ public class classicHandEvaluator
                     othersWinners.Add(player);
             }
         }
-        return (winner,othersWinners)
+        return (winner,othersWinners);
     }
 }
