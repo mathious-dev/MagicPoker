@@ -57,6 +57,6 @@ public class GameEngine
         (winner,otherWinners,combination)=_handEvaluator.WhoWin(allPlayers,mainCards);
         _display.Winner(winner,combination);
         if(!otherWinners.Any())
-            _display.OtherWinners(othersWinners);
+            _display.OtherWinners(otherWinners);
     }
 }

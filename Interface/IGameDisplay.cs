@@ -6,6 +6,8 @@ public interface IGameDisplay
 {
     void PlayerEliminate(Player player);
     void Winner(Player winner,string? combination);
-    void OtherWinners();
+    void OtherWinners(List<Player> othersWinners);
+    void ShowMenuOption(string[]options);
+    void ExitGame();
     // void MultiplePLayersWinConsole(Player player);
 }

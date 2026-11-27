@@ -105,10 +105,10 @@ public class ConsoleDisplay : IGameDisplay
     {
         Console.WriteLine($"\nLe gagnant est {winner.Name} avec la combinaison {combination}");
     }
-    public void OtherWinners(List<Player> winners)
+    public void OtherWinners(List<Player> othersWinners)
     {
         Console.WriteLine("\nLes gagnants sont ");
-        foreach(Player winner in winners)
+        foreach(Player winner in othersWinners)
         {
             Console.WriteLine($"\n-{winner.Name}");
         }

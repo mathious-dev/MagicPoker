@@ -20,7 +20,7 @@ public class Rule
         FollowFlush,//fait
         RoyalFlush//fait
     }
-    public static (Rule.RuleEnum,List<int>) RuleHightCard(List<Card>playerCards,List<Card> cardPlace)
+    public static (Rule.RuleEnum,List<int>) RuleHighCard(List<Card>playerCards,List<Card> cardPlace)
     {
         var finalListCards=playerCards.Concat(cardPlace)
                                     .Select(c => c.Number)

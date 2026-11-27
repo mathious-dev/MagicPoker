@@ -13,7 +13,7 @@ public class classicHandEvaluator : BasePokerHandEvaluator
         Rule.RuleEnum bestCombination=0;
         var listBestCards=new List<int>();
         var othersWinners=new List<Player>();
-        Player winner=null;
+        var winner=new Player();
         
         foreach(Player player in listPlayers)
         {

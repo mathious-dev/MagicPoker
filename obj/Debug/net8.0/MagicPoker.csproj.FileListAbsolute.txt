@@ -3,3 +3,13 @@ C:\Users\mathi\OneDrive\Documents\code_amusement\MagicPoker\obj\Debug\net8.0\Mag
 C:\Users\mathi\OneDrive\Documents\code_amusement\MagicPoker\obj\Debug\net8.0\MagicPoker.AssemblyInfo.cs
 C:\Users\mathi\OneDrive\Documents\code_amusement\MagicPoker\obj\Debug\net8.0\MagicPoker.csproj.CoreCompileInputs.cache
 C:\Users\mathi\OneDrive\Documents\code_amusement\MagicPoker\obj\Debug\net8.0\MagicPoker.sourcelink.json
+C:\Users\mathi\OneDrive\Documents\code_amusement\MagicPoker\bin\Debug\net8.0\MagicPoker.exe
+C:\Users\mathi\OneDrive\Documents\code_amusement\MagicPoker\bin\Debug\net8.0\MagicPoker.deps.json
+C:\Users\mathi\OneDrive\Documents\code_amusement\MagicPoker\bin\Debug\net8.0\MagicPoker.runtimeconfig.json
+C:\Users\mathi\OneDrive\Documents\code_amusement\MagicPoker\bin\Debug\net8.0\MagicPoker.dll
+C:\Users\mathi\OneDrive\Documents\code_amusement\MagicPoker\bin\Debug\net8.0\MagicPoker.pdb
+C:\Users\mathi\OneDrive\Documents\code_amusement\MagicPoker\obj\Debug\net8.0\MagicPoker.dll
+C:\Users\mathi\OneDrive\Documents\code_amusement\MagicPoker\obj\Debug\net8.0\refint\MagicPoker.dll
+C:\Users\mathi\OneDrive\Documents\code_amusement\MagicPoker\obj\Debug\net8.0\MagicPoker.pdb
+C:\Users\mathi\OneDrive\Documents\code_amusement\MagicPoker\obj\Debug\net8.0\MagicPoker.genruntimeconfig.cache
+C:\Users\mathi\OneDrive\Documents\code_amusement\MagicPoker\obj\Debug\net8.0\ref\MagicPoker.dll

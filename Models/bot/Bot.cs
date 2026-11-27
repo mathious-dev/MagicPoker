@@ -1,4 +1,5 @@
-﻿namespace MagicPoker.Model.bot;
+﻿using MagicPoker.Models;
+namespace MagicPoker.Model.bot;
 //à modifier
 public class Bot : Player
 {

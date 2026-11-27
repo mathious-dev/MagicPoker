@@ -1,5 +1,6 @@
 using MagicPoker.Models;
 using MagicPoker.Models.card;
+using MagicPoker.Game;
 namespace MagicPoker.Tests;
 
 public class WhoWinTest
@@ -13,8 +14,8 @@ public class WhoWinTest
             Name="Math",
             Deck =
             [
-                new(5){Type=TypeCard.Carreau},
-                new(7){Type=TypeCard.Carreau}
+                new(5,TypeCard.Carreau){},
+                new(7,TypeCard.Carreau){}
             ]
         };
         var player2=new Player
@@ -22,8 +23,8 @@ public class WhoWinTest
             Name="Benoit",
             Deck =
             [
-                new(6){Type=TypeCard.Pique},
-                new(14){Type=TypeCard.Carreau}
+                new(6,TypeCard.Pique){},
+                new(14,TypeCard.Carreau){}
             ]
         };
         var listPlayers=new List<Player>();
@@ -35,7 +36,7 @@ public class WhoWinTest
             new Card(3,TypeCard.Trefle) ,
             new Card(4,TypeCard.Coeur ) ,
             new Card(8,TypeCard.Coeur),
-            new Card(9,TypeCard.Coeur) 
+            new Card(6,TypeCard.Coeur) 
         };
         //Act
         var handEvaluator= new classicHandEvaluator();
