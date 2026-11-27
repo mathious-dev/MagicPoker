@@ -112,6 +112,5 @@ public class ConsoleDisplay : IGameDisplay
         {
             Console.WriteLine($"\n-{winner.Name}");
         }
-        
     }
 }

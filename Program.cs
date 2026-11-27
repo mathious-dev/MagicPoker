@@ -1,2 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿using MagicPoker;
+using MagicPoker.Game;
+
+var gamePlay=new GamePlay(new ConsoleDisplay(),new InputPlayer());
