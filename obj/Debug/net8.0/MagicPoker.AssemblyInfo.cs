@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MagicPoker")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+24b0f987b490ec7bdc0eb06bc6637bac55b899d2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+682c023584f693f094440852294520a001acc96c")]
 [assembly: System.Reflection.AssemblyProductAttribute("MagicPoker")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MagicPoker")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

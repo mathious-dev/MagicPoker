@@ -1,17 +1,12 @@
-﻿using MagicPoker.Models;
+﻿using System.Net.Sockets;
+using MagicPoker.Models;
 using MagicPoker.Models.card;
 namespace MagicPoker.Model.bot;
 //à modifier
-public class Bot : Player
+public abstract class Bot : Player
 {
-    public void ProbabilityBet(int highestValue,int combinationInt,int maxCoin,ref int betMin,ref int betMax,int minBetOnTable)
-    {
-        
-    }
-    public void Bluff()
-    {
-        
-    }
+    public abstract void ProbabilityBet(int highestValue,int combinationInt,int maxCoin,ref int betMin,ref int betMax,int minBetOnTable);
+    public abstract bool Bluff();
     public void BotAction(int minBetOnTable,List<Card>?cards)
     {
         var (combinationStart,highestValue)=EvaluateDeck(this.Deck,cards);
@@ -30,7 +25,10 @@ public class Bot : Player
         int highestValue;
         var allCards=new List<Card>();
         if(cardsOnTable!=null&& cardsOnTable.Any())
-            allCards=Rule.GroupCards(cardsOfBot,cardsOnTable);
+        {
+            allCards.AddRange(cardsOnTable);
+            allCards.AddRange(cardsOfBot);
+        }
         else
             allCards.AddRange(cardsOfBot);
         (combinationNumber,highestValue)=TestAllCombinationForBot(allCards);
@@ -77,14 +75,13 @@ public class Bot : Player
         return((int)Rule.RuleEnum.HighCard,highCard);
 
     }
-    
     public bool BluffBot(int chanceForBluff)
     {
-        return Random.Shared.Next(1,chanceForBluff)==1;
+        return Random.Shared.Next(0,chanceForBluff)==0;
     }
     public  int DeclarationOfAction(int highestValue,int combinationStart,int maxCoin,int minBetOnTable)
     {
-        int amountBet=0;
+        int amountBet;
         int betMin=0;
         int betMax=0;
         bool bluffOrNot=false;
