@@ -1,4 +1,4 @@
-﻿using MagicPoker.Model.bot;
+﻿using MagicPoker.Models.bot;
 namespace MagicPoker.Models.bot;
 
 public class MiddleBot : Bot

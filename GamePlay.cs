@@ -1,9 +1,13 @@
 ﻿using MagicPoker.Interface;
+using MagicPoker.Models.bot;
 using MagicPoker.Models;
+using MagicPoker.Game;
 namespace MagicPoker;
 
 public class GamePlay
 {
+    Player player=new Player();
+    List<Bot> listBots=new List<Bot>();
     private readonly IGameDisplay _display;
     private readonly IInputPlayer _input;
     public GamePlay(IGameDisplay display,IInputPlayer input)
@@ -37,7 +41,8 @@ public class GamePlay
     }
     public void StartGame()
     {
-        
+
+        GameEngine.Init(listBots);
     }
     public void Combinations()
     {
@@ -47,4 +52,5 @@ public class GamePlay
     {
         
     }
+
 }

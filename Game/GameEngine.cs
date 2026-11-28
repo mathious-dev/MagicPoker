@@ -1,5 +1,6 @@
 ﻿using MagicPoker.Models;
 using MagicPoker.Models.card;
+using MagicPoker.Models.bot;
 using MagicPoker.Interface;
 namespace MagicPoker.Game;
 
@@ -58,5 +59,34 @@ public class GameEngine
         _display.Winner(winner,combination);
         if(!otherWinners.Any())
             _display.OtherWinners(otherWinners);
+    }
+    public static void Init(List<Bot>bots)
+    {
+        Random randomLevel=new Random();
+        for(int i=1;i<=GameConfig.NumberBots;i++)
+        {
+            int randomNumber=Random.Shared.Next(1,4);
+            Bot bot=randomNumber switch
+            {
+                1=>new EasyBot{Name="bot"+i},
+                2=>new MiddleBot{Name="bot"+i},
+                _=>new HardBot{Name="bot"+i}
+            };
+            
+            bots.Add(bot);
+        }
+        Console.ForegroundColor=ConsoleColor.Green;
+        Console.WriteLine("\nCommencement de la partie.");
+        foreach(Bot bot in bots)
+        {
+            Console.WriteLine($"\nLe bot {bot.Name} a rejoint la partie");
+            bot.OnMoneyBet+=AddBetOnMainPot;
+        }
+        Console.ResetColor();
+    }
+    //peut etre changer de classe
+    public void AddBetOnMainPot(int amountBet)
+    {
+        MainPot+=amountBet;
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System.Net.Sockets;
 using MagicPoker.Models;
 using MagicPoker.Models.card;
-namespace MagicPoker.Model.bot;
-//à modifier
+namespace MagicPoker.Models.bot;
+
 public abstract class Bot : Player
 {
     public abstract void ProbabilityBet(int highestValue,int combinationInt,int maxCoin,ref int betMin,ref int betMax,int minBetOnTable);
